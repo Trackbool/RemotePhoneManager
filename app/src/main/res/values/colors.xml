@@ -3,4 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="smartphoneCardView">#F7FFFF</color>
+    <color name="pressedColor">#838181</color>
+    <color name="hoveredColor">#B1B1B1</color>
 </resources>
