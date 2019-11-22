@@ -1,83 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout>
 
-    <androidx.cardview.widget.CardView
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.remotephonemanager.ui.home.HomeViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            app:refreshing="@{viewModel.loading}"
+            app:onRefreshListener="@{() -> viewModel.onUpdateDevicesListRequest()}"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/smartphoneCardView"
-            android:padding="16dp">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/device_image_imageView"
-                android:layout_width="36dp"
-                android:layout_height="60dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/smartphone"
-                android:contentDescription="@string/device_icon_content_description" />
+            <!--<androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/devices_list_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"> -->
 
-            <TextView
-                android:id="@+id/decive_name_textView"
-                android:layout_width="216dp"
-                android:layout_height="29dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="21dp"
-                android:layout_toStartOf="@+id/take_photo_button"
-                android:layout_toEndOf="@+id/device_image_imageView"
-                android:maxLength="12"
-                android:textSize="22sp"
-                tools:text="Mi iPhone" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/device_model_textView"
-                android:layout_width="216dp"
-                android:layout_height="21dp"
-                android:layout_below="@+id/decive_name_textView"
-                android:layout_marginEnd="21dp"
-                android:layout_toStartOf="@+id/take_photo_button"
-                android:layout_toEndOf="@+id/device_image_imageView"
-                android:maxLength="20"
-                tools:text="iPhone" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/smartphoneCardView"
+                        android:padding="16dp">
 
-            <com.example.remotephonemanager.ui.components.ClickableImageView
-                android:id="@+id/take_photo_button"
-                android:layout_width="25dp"
-                android:layout_height="45dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@+id/trigger_ring_button"
-                android:src="@drawable/ic_menu_camera"
-                app:pressedColor="@color/clickable_view_colors" />
+                        <ImageView
+                            android:id="@+id/device_image_imageView"
+                            android:layout_width="36dp"
+                            android:layout_height="60dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="@string/device_icon_content_description"
+                            android:src="@drawable/smartphone" />
 
-            <com.example.remotephonemanager.ui.components.ClickableImageView
-                android:id="@+id/trigger_ring_button"
-                android:layout_width="22dp"
-                android:layout_height="45dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="33dp"
-                android:src="@drawable/smartphone_ring"
-                app:pressedColor="@color/clickable_view_colors" />
+                        <TextView
+                            android:id="@+id/decive_name_textView"
+                            android:layout_width="216dp"
+                            android:layout_height="29dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginEnd="21dp"
+                            android:layout_toStartOf="@+id/take_photo_button"
+                            android:layout_toEndOf="@+id/device_image_imageView"
+                            android:maxLength="12"
+                            android:textSize="22sp"
+                            tools:text="Mi iPhone" />
 
-            <com.example.remotephonemanager.ui.components.ClickableImageView
-                android:id="@+id/lock_device_button"
-                android:layout_width="22dp"
-                android:layout_height="45dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/smartphone_lock"
-                app:pressedColor="@color/clickable_view_colors" />
+                        <TextView
+                            android:id="@+id/device_model_textView"
+                            android:layout_width="216dp"
+                            android:layout_height="21dp"
+                            android:layout_below="@+id/decive_name_textView"
+                            android:layout_marginEnd="21dp"
+                            android:layout_toStartOf="@+id/take_photo_button"
+                            android:layout_toEndOf="@+id/device_image_imageView"
+                            android:maxLength="20"
+                            tools:text="iPhone" />
 
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-</LinearLayout>
+                        <com.example.remotephonemanager.ui.components.ClickableImageView
+                            android:id="@+id/take_photo_button"
+                            android:layout_width="25dp"
+                            android:layout_height="45dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginEnd="10dp"
+                            android:layout_toStartOf="@+id/trigger_ring_button"
+                            android:src="@drawable/ic_menu_camera"
+                            app:pressedColor="@color/clickable_view_colors" />
+
+                        <com.example.remotephonemanager.ui.components.ClickableImageView
+                            android:id="@+id/trigger_ring_button"
+                            android:layout_width="22dp"
+                            android:layout_height="45dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="33dp"
+                            android:src="@drawable/smartphone_ring"
+                            app:pressedColor="@color/clickable_view_colors" />
+
+                        <com.example.remotephonemanager.ui.components.ClickableImageView
+                            android:id="@+id/lock_device_button"
+                            android:layout_width="22dp"
+                            android:layout_height="45dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:src="@drawable/smartphone_lock"
+                            app:pressedColor="@color/clickable_view_colors" />
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+           <!-- </androidx.recyclerview.widget.RecyclerView> -->
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+</layout>
