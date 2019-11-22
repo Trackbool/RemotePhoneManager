@@ -21,22 +21,27 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
+        val viewModel =
+            ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val binding: FragmentHomeBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_home, container, false)
         binding.lifecycleOwner = this
-        binding.viewModel = HomeViewModel()
+        binding.viewModel = viewModel
 
         return binding.root
     }
 
-    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
-        devicesListRecyclerView.setHasFixedSize(true)
-        devicesListRecyclerView.layoutManager = LinearLayoutManager(context)
-    }*/
+        devicesListRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = DevicesRecyclerViewAdapter(mutableListOf())
+            setHasFixedSize(true)
+        }
+    }
 
     private fun initViews() {
-        //devicesListRecyclerView = view!!.findViewById(R.id.devices_list_recyclerView)
+        devicesListRecyclerView = view!!.findViewById(R.id.devices_list_recyclerView)
     }
 }
