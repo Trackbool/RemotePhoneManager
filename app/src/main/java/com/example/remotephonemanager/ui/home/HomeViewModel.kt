@@ -25,6 +25,18 @@ class HomeViewModel : ViewModel() {
         fetchDevices()
     }
 
+    fun onTakePhotoClicked(device: Device) {
+        println(device.name + " photo")
+    }
+
+    fun onPerformRingClicked(device: Device) {
+        println(device.name + " ring")
+    }
+
+    fun onLockDeviceClicked(device: Device) {
+        println(device.name + " lock")
+    }
+
     private fun fetchDevices() {
         loading.set(true)
 

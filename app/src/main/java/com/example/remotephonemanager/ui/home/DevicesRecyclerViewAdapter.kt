@@ -3,12 +3,15 @@ package com.example.remotephonemanager.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remotephonemanager.R
 import com.example.remotephonemanager.domain.Device
 
-class DevicesRecyclerViewAdapter(private val devices: MutableList<Device>) :
+class DevicesRecyclerViewAdapter(private val devices: MutableList<Device>,
+                                 private val events: Events) :
     RecyclerView.Adapter<DevicesRecyclerViewAdapter.CustomViewHolder>() {
 
     fun setData(data: MutableList<Device>) {
@@ -37,9 +40,21 @@ class DevicesRecyclerViewAdapter(private val devices: MutableList<Device>) :
         fun bind(device: Device) {
             view.findViewById<TextView>(R.id.decive_name_textView).text = device.name
             view.findViewById<TextView>(R.id.device_model_textView).text = device.model
-            /*view.findViewById<Button>(R.id.button).setOnClickListener {
-                doTask(device)
-            }*/
+            view.findViewById<ImageView>(R.id.take_photo_button).setOnClickListener {
+                events.onTakePhotoClicked(device)
+            }
+            view.findViewById<ImageView>(R.id.trigger_ring_button).setOnClickListener {
+                events.onPerformRingClicked(device)
+            }
+            view.findViewById<ImageView>(R.id.lock_device_button).setOnClickListener {
+                events.onLockDeviceClicked(device)
+            }
         }
+    }
+
+    interface Events {
+        fun onTakePhotoClicked(device: Device)
+        fun onPerformRingClicked(device: Device)
+        fun onLockDeviceClicked(device: Device)
     }
 }
