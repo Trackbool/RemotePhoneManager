@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.remotephonemanager.domain.Device
 import com.example.remotephonemanager.domain.User
+import com.example.remotephonemanager.usecases.RequestError
 import com.example.remotephonemanager.usecases.UseCase
 import com.example.remotephonemanager.usecases.devices.DevicesRepositoryMockImpl
 import com.example.remotephonemanager.usecases.devices.GetDevicesUseCase
@@ -44,10 +45,17 @@ class HomeViewModel : ViewModel() {
             1, "usuario1", "",
             Device("001A", "Movil Adri", "Xiaomi")
         )
-        val fetchedDevices = getDevicesUseCase
-            .execute(GetDevicesUseCase.InputData(authenticatedUser)).devices
+        getDevicesUseCase.execute(GetDevicesUseCase.InputData(authenticatedUser),
+            object : UseCase.RequestCallback<GetDevicesUseCase.OutputData> {
+                override fun onSuccess(outputData: GetDevicesUseCase.OutputData) {
+                    devices.postValue(outputData.devices)
+                    loading.set(false)
+                }
 
-        devices.value = fetchedDevices
-        loading.set(false)
+                override fun onError(error: RequestError) {
+                    loading.set(false)
+                    TODO()
+                }
+            })
     }
 }
