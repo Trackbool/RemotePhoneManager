@@ -22,6 +22,6 @@ class GetDevicesUseCase(private val devicesRepository: DevicesRepository) :
         devicesRepository.getDevices(repositoryRequestCallback)
     }
 
-    class InputData(var user: User) : UseCase.InputData
+    class InputData : UseCase.InputData
     class OutputData(val devices: List<Device>): UseCase.OutputData
 }

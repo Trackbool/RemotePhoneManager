@@ -1,3 +1,3 @@
 package com.example.remotephonemanager.domain
 
-data class User(var id: Int, var usuario: String, var email: String, var device: Device)
+data class User(var id: Int, var usuario: String, var email: String)

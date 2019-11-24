@@ -1,5 +1,6 @@
 package com.example.remotephonemanager.ui.home
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,7 +39,17 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         viewModel.fetchDevicesError.observe(this, Observer {
-            Snackbar.make(view, it, Snackbar.LENGTH_LONG).show()
+            val snackbar = Snackbar.make(view, it, Snackbar.LENGTH_LONG)
+            snackbar.view.setBackgroundColor(Color.RED)
+            snackbar.show()
+        })
+        viewModel.sendActionSucceeded.observe(this, Observer {
+            Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
+        })
+        viewModel.sendActionError.observe(this, Observer {
+            val snackbar = Snackbar.make(view, it, Snackbar.LENGTH_LONG)
+            snackbar.view.setBackgroundColor(Color.RED)
+            snackbar.show()
         })
         setUpRecyclerView()
     }

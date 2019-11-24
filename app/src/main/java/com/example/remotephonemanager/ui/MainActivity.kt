@@ -14,6 +14,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import com.example.remotephonemanager.R
+import com.example.remotephonemanager.domain.Device
+import com.example.remotephonemanager.domain.Session
+import com.example.remotephonemanager.domain.SessionHolder
+import com.example.remotephonemanager.domain.User
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +28,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        SessionHolder.session = Session(User(1, "Adri01", "adri@adr.caom"),
+            Device("imeiNumber", "Movil Adri", "Xiaomi"))
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
