@@ -63,21 +63,25 @@ class HomeViewModel : ViewModel() {
                 }
 
                 override fun onError(error: RequestError) {
-                    loading.set(false)
                     fetchDevicesError.postValue("Error fetching devices")
+                    loading.set(false)
                 }
             })
     }
 
     private fun sendAction(action: Action) {
+        loading.set(true)
+
         sendActionUseCase.execute(SendActionUseCase.InputData(action),
             object : UseCase.RequestCallback<SendActionUseCase.OutputData> {
                 override fun onSuccess(outputData: SendActionUseCase.OutputData) {
                     sendActionSucceeded.postValue("Action sent to: " + action.dstDevice.name)
+                    loading.set(false)
                 }
 
                 override fun onError(error: RequestError) {
                     sendActionError.postValue("Error sending action to: " + action.dstDevice.name)
+                    loading.set(false)
                 }
             })
     }

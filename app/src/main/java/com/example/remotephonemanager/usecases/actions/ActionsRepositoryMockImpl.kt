@@ -4,6 +4,9 @@ import com.example.remotephonemanager.domain.Action
 
 class ActionsRepositoryMockImpl : ActionsRepository {
     override fun sendAction(action: Action, sendActionCallback: ActionsRepository.SendActionCallback) {
-        sendActionCallback.onSuccess()
+        Thread(Runnable {
+            Thread.sleep(2000)
+            sendActionCallback.onSuccess()
+        }).start()
     }
 }
