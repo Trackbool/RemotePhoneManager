@@ -35,19 +35,16 @@ class HomeViewModel : ViewModel() {
     }
 
     fun onTakePhotoClicked(device: Device) {
-        println(device.name + " photo")
         val action = ActionFactory.createTakePhotoAction(device)
         sendAction(action)
     }
 
     fun onPerformRingClicked(device: Device) {
-        println(device.name + " ring")
         val action = ActionFactory.createPerformRingAction(device)
         sendAction(action)
     }
 
     fun onLockDeviceClicked(device: Device) {
-        println(device.name + " lock")
         val action = ActionFactory.createLockDeviceAction(device)
         sendAction(action)
     }

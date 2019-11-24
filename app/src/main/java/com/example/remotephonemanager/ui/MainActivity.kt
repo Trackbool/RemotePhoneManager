@@ -1,5 +1,6 @@
 package com.example.remotephonemanager.ui
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -18,6 +19,7 @@ import com.example.remotephonemanager.domain.Device
 import com.example.remotephonemanager.domain.Session
 import com.example.remotephonemanager.domain.SessionHolder
 import com.example.remotephonemanager.domain.User
+import com.example.remotephonemanager.framework.services.ListenToActionsService
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +33,8 @@ class MainActivity : AppCompatActivity() {
 
         SessionHolder.session = Session(User(1, "Adri01", "adri@adr.caom"),
             Device("imeiNumber", "Movil Adri", "Xiaomi"))
+        val intent = Intent(this, ListenToActionsService::class.java)
+        startService(intent)
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->

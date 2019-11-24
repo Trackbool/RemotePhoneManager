@@ -10,4 +10,11 @@ interface ActionsRepository {
         fun onSuccess()
         fun onError(requestError: RequestError)
     }
+
+    fun getActions(getActionsCallback: GetActionsCallback)
+
+    interface GetActionsCallback{
+        fun onSuccess(actions: List<Action>)
+        fun onError(requestError: RequestError)
+    }
 }
