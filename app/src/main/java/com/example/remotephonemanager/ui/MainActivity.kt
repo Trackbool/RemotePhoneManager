@@ -1,25 +1,30 @@
 package com.example.remotephonemanager.ui
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import android.view.Menu
 import com.example.remotephonemanager.R
 import com.example.remotephonemanager.domain.Device
 import com.example.remotephonemanager.domain.Session
 import com.example.remotephonemanager.domain.SessionHolder
 import com.example.remotephonemanager.domain.User
 import com.example.remotephonemanager.framework.services.ListenToActionsService
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,11 +35,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-        SessionHolder.session = Session(User(1, "Adri01", "adri@adr.caom"),
-            Device("imeiNumber", "Movil Adri", "Xiaomi"))
-        val intent = Intent(this, ListenToActionsService::class.java)
-        startService(intent)
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
@@ -58,6 +58,12 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        requestPermissions()
+        SessionHolder.session = Session(User(1, "Adri01", "adri@adr.caom"),
+            Device("imeiNumber", "Movil Adri", "Xiaomi"))
+        val intent = Intent(this, ListenToActionsService::class.java)
+        startService(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -69,5 +75,18 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun requestPermissions() {
+        if(!checkPermission()) {
+            ActivityCompat.requestPermissions(
+                this, arrayOf(Manifest.permission.CAMERA), 1
+            )
+        }
+    }
+
+    private fun checkPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }
 }
