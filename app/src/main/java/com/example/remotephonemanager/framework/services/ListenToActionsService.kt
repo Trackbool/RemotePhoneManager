@@ -69,10 +69,10 @@ class ListenToActionsService : Service() {
         }
         with(mNotificationBuilder) {
             this.setContentTitle("App is running")
-                ?.setTicker("Running")
-                ?.setSmallIcon(R.drawable.ic_launcher_background)
-                ?.setContentText("Listening...")
-                ?.setOngoing(true)
+                .setTicker("Running")
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentText("Listening...")
+                .setOngoing(true)
 
             mNotificationManager.notify(notificationId, mNotificationBuilder.build())
         }
@@ -119,6 +119,7 @@ class ListenToActionsService : Service() {
             textureView.surfaceTexture = SurfaceTexture(1)
             camera.open(CameraDevice.TEMPLATE_PREVIEW, textureView)
         }
+        //TODO: set actions resolved
     }
 
     private fun hasCameraPermission(): Boolean {
