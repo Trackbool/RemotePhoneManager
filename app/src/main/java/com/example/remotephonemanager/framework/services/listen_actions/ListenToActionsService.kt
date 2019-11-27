@@ -2,11 +2,13 @@ package com.example.remotephonemanager.framework.services.listen_actions
 
 import android.Manifest
 import android.app.Notification
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraDevice
@@ -26,7 +28,9 @@ import com.example.remotephonemanager.usecases.actions.GetActionsUseCase
 
 
 class ListenToActionsService : Service() {
-    private val notificationId = 1000
+    private val notificationChannelId = "4562A"
+    private val notificationChannelName = "ListenToActionsServiceChannel"
+    private val notificationId = 1223
     private lateinit var mNotificationBuilder: Notification.Builder
     private lateinit var mNotificationManager: NotificationManager
 
@@ -47,23 +51,33 @@ class ListenToActionsService : Service() {
         return null
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    }
-
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        handler.post {
-            initializeNotificationBuilder()
-            doTask()
-        }
+        initializeNotification()
 
         return START_NOT_STICKY
     }
 
-    private fun initializeNotificationBuilder() {
+    override fun onCreate() {
+        super.onCreate()
+        doTask()
+    }
+
+    private fun initializeNotification() {
+        mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelName: CharSequence = notificationChannelName
+            val importance = NotificationManager.IMPORTANCE_LOW
+            val notificationChannel =
+                NotificationChannel(notificationChannelId, channelName, importance)
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.RED
+
+            mNotificationManager.createNotificationChannel(notificationChannel)
+        }
+
         mNotificationBuilder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder(this, "1")
+            Notification.Builder(this, notificationChannelId)
         } else {
             Notification.Builder(this)
         }
@@ -74,7 +88,9 @@ class ListenToActionsService : Service() {
                 .setContentText("Listening...")
                 .setOngoing(true)
 
-            mNotificationManager.notify(notificationId, mNotificationBuilder.build())
+            val notification = mNotificationBuilder.build()
+            startForeground(notificationId, notification)
+            mNotificationManager.notify(notificationId, notification)
         }
     }
 
