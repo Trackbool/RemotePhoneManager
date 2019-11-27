@@ -7,32 +7,30 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraDevice
-import android.media.Image
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
-import android.util.Log
 import android.view.TextureView
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.remotephonemanager.R
+import com.example.remotephonemanager.domain.Action
+import com.example.remotephonemanager.domain.ActionType
 import com.example.remotephonemanager.framework.camera.EZCam
-import com.example.remotephonemanager.framework.camera.EZCamCallback
-import java.io.ByteArrayOutputStream
-import java.nio.ByteBuffer
+import com.example.remotephonemanager.usecases.RequestError
+import com.example.remotephonemanager.usecases.UseCase
+import com.example.remotephonemanager.usecases.actions.ActionsRepositoryMockImpl
+import com.example.remotephonemanager.usecases.actions.GetActionsUseCase
 
 
 class ListenToActionsService : Service() {
-    private val NOTIFICATION_ID = 1000
-    private var mNotificationBuilder: Notification.Builder? = null
-    private var mNotificationManager: NotificationManager? = null
+    private val notificationId = 1000
+    private lateinit var mNotificationBuilder: Notification.Builder
+    private lateinit var mNotificationManager: NotificationManager
 
-    /*private val getActionsUseCase = GetActionsUseCase(ActionsRepositoryMockImpl())
+    private val getActionsUseCase = GetActionsUseCase(ActionsRepositoryMockImpl())
     private val getActionsRequestCallback =
         object : UseCase.RequestCallback<GetActionsUseCase.OutputData> {
             override fun onSuccess(outputData: GetActionsUseCase.OutputData) {
@@ -40,38 +38,10 @@ class ListenToActionsService : Service() {
             }
 
             override fun onError(error: RequestError) {}
-        } */
+        }
 
+    private val handler = Handler()
     private lateinit var camera: EZCam
-    private val cameraCallback = object : EZCamCallback {
-        override fun onCameraReady() {
-            camera.startPreview()
-            camera.takePicture()
-        }
-
-        override fun onPicture(image: Image?) {
-            Log.d("CameraServiceDebug", "Picture taken")
-            val buffer: ByteBuffer = image!!.planes[0].buffer
-            val bytes = ByteArray(buffer.capacity())
-            buffer.get(bytes)
-            val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, null)
-
-            //compress
-            val stream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-            val byteArray = stream.toByteArray()
-            val compressedBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-            //val imageBase64 = Base64.encodeToString(byteArray, Base64.NO_WRAP)
-        }
-
-        override fun onCameraDisconnected() {
-            Log.d("CameraServiceDebug", "Camera disconnected")
-        }
-
-        override fun onError(message: String?) {
-            Log.d("CameraServiceDebug", "Error: $message")
-        }
-    }
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -83,7 +53,7 @@ class ListenToActionsService : Service() {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        Handler().post {
+        handler.post {
             initializeNotificationBuilder()
             doTask()
         }
@@ -98,48 +68,61 @@ class ListenToActionsService : Service() {
             Notification.Builder(this)
         }
         with(mNotificationBuilder) {
-            this?.setContentTitle("App is running")
+            this.setContentTitle("App is running")
                 ?.setTicker("Running")
                 ?.setSmallIcon(R.drawable.ic_launcher_background)
                 ?.setContentText("Listening...")
                 ?.setOngoing(true)
 
-            mNotificationManager?.notify(NOTIFICATION_ID, mNotificationBuilder?.build())
+            mNotificationManager.notify(notificationId, mNotificationBuilder.build())
         }
+    }
+
+    override fun onDestroy() {
+        mNotificationManager.cancel(notificationId)
+        super.onDestroy()
     }
 
     private fun doTask() {
         camera = EZCam(applicationContext)
-        takePhoto()
-        /*while (true) {
+        camera.setCameraCallback(TakePhotoCameraCallback(camera))
+
+        //TODO: WebSocket to get actions in real time instead of polling
+        lateinit var runnableCode: Runnable
+        runnableCode = Runnable {
             receiveActions()
-        }*/
+            handler.postDelayed(runnableCode, 3400)
+        }
+        handler.post(runnableCode)
     }
 
-    /*private fun receiveActions() {
-        //TODO: WebSocket to get actions in real time
-        Thread.sleep(3000)
+    private fun receiveActions() {
         getActionsUseCase.execute(GetActionsUseCase.InputData(), getActionsRequestCallback)
     }
 
-    private fun manageActions(actions: List<Action>){
-        //TODO: execute actions depending on each action type
-        takePhoto()
-    }*/
+    private fun manageActions(actions: List<Action>) {
+        for (action in actions) {
+            when (action.typeId) {
+                ActionType.TAKE_PHOTO -> takePhoto(CameraCharacteristics.LENS_FACING_BACK)
+                //ActionType.LOCK_DEVICE -> //TODO: lockDevice()
+                //ActionType.PERFORM_RING -> //TODO: performRing()
+            }
+        }
 
-    private fun takePhoto() {
-        if(hasCameraPermission()) {
-            val id = camera.camerasList[CameraCharacteristics.LENS_FACING_BACK]
+    }
+
+    private fun takePhoto(cameraType: Int) {
+        if (hasCameraPermission()) {
+            val id = camera.camerasList[cameraType]
             camera.selectCamera(id)
-            camera.setCameraCallback(cameraCallback)
             val textureView = TextureView(applicationContext)
             textureView.surfaceTexture = SurfaceTexture(1)
             camera.open(CameraDevice.TEMPLATE_PREVIEW, textureView)
         }
     }
 
-    private fun hasCameraPermission(): Boolean{
-        return ContextCompat.checkSelfPermission(
-            this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+    private fun hasCameraPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
+                PackageManager.PERMISSION_GRANTED
     }
 }

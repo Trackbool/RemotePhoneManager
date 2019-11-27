@@ -22,7 +22,7 @@ class ActionsRepositoryMockImpl : ActionsRepository {
         val actions = ArrayList<Action>()
         actions.add(
             Action(
-                ActionType.PERFORM_RING,
+                ActionType.TAKE_PHOTO,
                 User(2, "Mikel1", ""),
                 Device("B001", "Movil Randal", "iPhone X"),
                 Device("A001", "Movil Adri", "Xiaomi Mi4"),
