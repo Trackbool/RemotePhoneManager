@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".framework.services.ListenToActionsService" />
+        <service android:name=".framework.services.listen_actions.ListenToActionsService" />
     </application>
 
 </manifest>

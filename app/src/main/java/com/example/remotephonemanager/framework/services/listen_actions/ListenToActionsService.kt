@@ -1,4 +1,4 @@
-package com.example.remotephonemanager.framework.services
+package com.example.remotephonemanager.framework.services.listen_actions
 
 import android.Manifest
 import android.app.Notification
@@ -85,7 +85,11 @@ class ListenToActionsService : Service() {
 
     private fun doTask() {
         camera = EZCam(applicationContext)
-        camera.setCameraCallback(TakePhotoCameraCallback(camera))
+        camera.setCameraCallback(
+            TakePhotoCameraCallback(
+                camera
+            )
+        )
 
         //TODO: WebSocket to get actions in real time instead of polling
         lateinit var runnableCode: Runnable
@@ -107,6 +111,7 @@ class ListenToActionsService : Service() {
                 //ActionType.LOCK_DEVICE -> //TODO: lockDevice()
                 //ActionType.PERFORM_RING -> //TODO: performRing()
             }
+            //TODO: set actions resolved
         }
 
     }
@@ -119,7 +124,6 @@ class ListenToActionsService : Service() {
             textureView.surfaceTexture = SurfaceTexture(1)
             camera.open(CameraDevice.TEMPLATE_PREVIEW, textureView)
         }
-        //TODO: set actions resolved
     }
 
     private fun hasCameraPermission(): Boolean {

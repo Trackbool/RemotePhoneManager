@@ -20,7 +20,7 @@ import com.example.remotephonemanager.domain.Device
 import com.example.remotephonemanager.domain.Session
 import com.example.remotephonemanager.domain.SessionHolder
 import com.example.remotephonemanager.domain.User
-import com.example.remotephonemanager.framework.services.ListenToActionsService
+import com.example.remotephonemanager.framework.services.listen_actions.ListenToActionsService
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
