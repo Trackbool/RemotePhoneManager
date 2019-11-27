@@ -3,6 +3,7 @@ package com.example.remotephonemanager.ui
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
@@ -60,10 +61,16 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         requestPermissions()
-        SessionHolder.session = Session(User(1, "Adri01", "adri@adr.caom"),
-            Device("imeiNumber", "Movil Adri", "Xiaomi"))
+        SessionHolder.session = Session(
+            User(1, "Adri01", "adri@adr.caom"),
+            Device("imeiNumber", "Movil Adri", "Xiaomi")
+        )
         val intent = Intent(this, ListenToActionsService::class.java)
-        startService(intent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent)
+        } else {
+            startService(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -78,7 +85,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestPermissions() {
-        if(!checkPermission()) {
+        if (!checkPermission()) {
             ActivityCompat.requestPermissions(
                 this, arrayOf(Manifest.permission.CAMERA), 1
             )
@@ -87,6 +94,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
-            this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+            this, Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
     }
 }
