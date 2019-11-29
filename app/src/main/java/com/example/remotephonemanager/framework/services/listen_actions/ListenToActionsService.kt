@@ -74,13 +74,12 @@ class ListenToActionsService : Service() {
             notificationChannel.lightColor = Color.RED
 
             mNotificationManager.createNotificationChannel(notificationChannel)
+
+            mNotificationBuilder = Notification.Builder(this, notificationChannelId)
+        } else {
+            mNotificationBuilder = Notification.Builder(this)
         }
 
-        mNotificationBuilder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder(this, notificationChannelId)
-        } else {
-            Notification.Builder(this)
-        }
         with(mNotificationBuilder) {
             this.setContentTitle("App is running")
                 .setTicker("Running")
