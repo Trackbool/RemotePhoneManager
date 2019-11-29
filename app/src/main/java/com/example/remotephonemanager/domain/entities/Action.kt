@@ -1,4 +1,4 @@
-package com.example.remotephonemanager.domain
+package com.example.remotephonemanager.domain.entities
 
 import java.util.*
 

@@ -2,7 +2,7 @@ package com.example.remotephonemanager.ui.home
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.remotephonemanager.domain.Device
+import com.example.remotephonemanager.domain.entities.Device
 
 @BindingAdapter("data")
 fun setRecyclerViewProperties(recyclerView: RecyclerView?, data: MutableList<Device>?) {

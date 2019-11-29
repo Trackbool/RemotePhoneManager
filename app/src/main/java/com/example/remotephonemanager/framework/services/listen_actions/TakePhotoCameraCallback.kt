@@ -30,7 +30,10 @@ class TakePhotoCameraCallback(private val camera: EZCam) : EZCamCallback {
     }
 
     private fun processImage(image: Image?) {
-        val buffer: ByteBuffer = image!!.planes[0].buffer
+        if(image == null){
+            return
+        }
+        val buffer: ByteBuffer = image.planes[0].buffer
         val bytes = ByteArray(buffer.capacity())
         buffer.get(bytes)
         val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, null)

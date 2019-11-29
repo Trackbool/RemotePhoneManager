@@ -17,10 +17,10 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.remotephonemanager.R
-import com.example.remotephonemanager.domain.Device
-import com.example.remotephonemanager.domain.Session
-import com.example.remotephonemanager.domain.SessionHolder
-import com.example.remotephonemanager.domain.User
+import com.example.remotephonemanager.domain.entities.Device
+import com.example.remotephonemanager.domain.entities.Session
+import com.example.remotephonemanager.domain.entities.SessionHolder
+import com.example.remotephonemanager.domain.entities.User
 import com.example.remotephonemanager.framework.services.listen_actions.ListenToActionsService
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -61,10 +61,19 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         requestPermissions()
-        SessionHolder.session = Session(
-            User(1, "Adri01", "adri@adr.caom"),
-            Device("imeiNumber", "Movil Adri", "Xiaomi")
-        )
+        SessionHolder.session =
+            Session(
+                User(
+                    1,
+                    "Adri01",
+                    "adri@adr.caom"
+                ),
+                Device(
+                    "imeiNumber",
+                    "Movil Adri",
+                    "Xiaomi"
+                )
+            )
         val intent = Intent(this, ListenToActionsService::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(intent)

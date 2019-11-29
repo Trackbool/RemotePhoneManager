@@ -1,4 +1,4 @@
-package com.example.remotephonemanager.domain
+package com.example.remotephonemanager.domain.entities
 
 object ActionType {
     const val TAKE_PHOTO = 1

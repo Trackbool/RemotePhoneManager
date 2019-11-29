@@ -110,7 +110,7 @@ public class EZCam {
                 }
             }
             return camerasList;
-        } catch (CameraAccessException e) {
+        } catch (CameraAccessException | IllegalStateException e) {
             notifyError(e.getMessage());
             return null;
         }
@@ -142,7 +142,7 @@ public class EZCam {
             } else {
                 notifyError("Could not get configuration map.");
             }
-        } catch (CameraAccessException e) {
+        } catch (CameraAccessException | IllegalStateException e) {
             notifyError(e.getMessage());
         }
     }
@@ -198,7 +198,7 @@ public class EZCam {
                     }
                 }
             }, backgroundHandler);
-        } catch (CameraAccessException e) {
+        } catch (CameraAccessException | IllegalStateException e) {
             notifyError(e.getMessage());
         }
     }
@@ -227,7 +227,7 @@ public class EZCam {
                     notifyError("Could not configure capture session.");
                 }
             }, backgroundHandler);
-        } catch (CameraAccessException e) {
+        } catch (CameraAccessException | IllegalStateException e) {
             notifyError(e.getMessage());
         }
     }
@@ -330,7 +330,7 @@ public class EZCam {
     public void startPreview() {
         try {
             cameraCaptureSession.setRepeatingRequest(captureRequestBuilder.build(), null, backgroundHandler);
-        } catch (CameraAccessException e) {
+        } catch (CameraAccessException | IllegalStateException e) {
             notifyError(e.getMessage());
         }
     }
@@ -341,7 +341,7 @@ public class EZCam {
     public void stopPreview() {
         try {
             cameraCaptureSession.stopRepeating();
-        } catch (CameraAccessException e) {
+        } catch (CameraAccessException | IllegalStateException e) {
             notifyError(e.getMessage());
         }
     }
@@ -369,7 +369,7 @@ public class EZCam {
         captureRequestBuilderImageReader.set(CaptureRequest.JPEG_ORIENTATION, cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION));
         try {
             cameraCaptureSession.capture(captureRequestBuilderImageReader.build(), null, backgroundHandler);
-        } catch (CameraAccessException e) {
+        } catch (CameraAccessException | IllegalStateException e) {
             notifyError(e.getMessage());
         }
     }

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.Observable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remotephonemanager.R
 import com.example.remotephonemanager.databinding.FragmentHomeBinding
-import com.example.remotephonemanager.domain.Device
+import com.example.remotephonemanager.domain.entities.Device
 import com.google.android.material.snackbar.Snackbar
 
 class HomeFragment : Fragment() {

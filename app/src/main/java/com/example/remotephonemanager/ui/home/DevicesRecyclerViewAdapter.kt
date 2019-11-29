@@ -3,12 +3,11 @@ package com.example.remotephonemanager.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remotephonemanager.R
-import com.example.remotephonemanager.domain.Device
+import com.example.remotephonemanager.domain.entities.Device
 
 class DevicesRecyclerViewAdapter(private val devices: MutableList<Device>,
                                  private val events: Events) :

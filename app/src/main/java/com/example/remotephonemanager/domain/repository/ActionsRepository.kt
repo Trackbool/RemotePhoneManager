@@ -1,7 +1,7 @@
-package com.example.remotephonemanager.usecases.actions
+package com.example.remotephonemanager.domain.repository
 
-import com.example.remotephonemanager.domain.Action
-import com.example.remotephonemanager.usecases.RequestError
+import com.example.remotephonemanager.domain.entities.Action
+import com.example.remotephonemanager.domain.entities.request.RequestError
 
 interface ActionsRepository {
     fun sendAction(action: Action, sendActionCallback: SendActionCallback)

@@ -1,7 +1,8 @@
 package com.example.remotephonemanager.usecases.actions
 
-import com.example.remotephonemanager.domain.Action
-import com.example.remotephonemanager.usecases.RequestError
+import com.example.remotephonemanager.domain.entities.Action
+import com.example.remotephonemanager.domain.repository.ActionsRepository
+import com.example.remotephonemanager.domain.entities.request.RequestError
 import com.example.remotephonemanager.usecases.UseCase
 
 class GetActionsUseCase(private var actionsRepository: ActionsRepository)  :

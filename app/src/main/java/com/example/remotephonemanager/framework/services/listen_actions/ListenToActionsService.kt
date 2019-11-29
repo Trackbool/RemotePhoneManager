@@ -18,10 +18,10 @@ import android.os.IBinder
 import android.view.TextureView
 import androidx.core.content.ContextCompat
 import com.example.remotephonemanager.R
-import com.example.remotephonemanager.domain.Action
-import com.example.remotephonemanager.domain.ActionType
+import com.example.remotephonemanager.domain.entities.Action
+import com.example.remotephonemanager.domain.entities.ActionType
 import com.example.remotephonemanager.framework.camera.EZCam
-import com.example.remotephonemanager.usecases.RequestError
+import com.example.remotephonemanager.domain.entities.request.RequestError
 import com.example.remotephonemanager.usecases.UseCase
 import com.example.remotephonemanager.usecases.actions.ActionsRepositoryMockImpl
 import com.example.remotephonemanager.usecases.actions.GetActionsUseCase

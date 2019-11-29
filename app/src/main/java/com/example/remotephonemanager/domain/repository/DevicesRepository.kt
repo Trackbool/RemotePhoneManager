@@ -1,7 +1,7 @@
-package com.example.remotephonemanager.usecases.devices
+package com.example.remotephonemanager.domain.repository
 
-import com.example.remotephonemanager.domain.Device
-import com.example.remotephonemanager.usecases.RequestError
+import com.example.remotephonemanager.domain.entities.Device
+import com.example.remotephonemanager.domain.entities.request.RequestError
 
 interface DevicesRepository{
     fun getDevices(getDevicesCallback: GetDevicesCallback)

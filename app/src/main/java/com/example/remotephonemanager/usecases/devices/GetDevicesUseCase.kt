@@ -1,8 +1,8 @@
 package com.example.remotephonemanager.usecases.devices
 
-import com.example.remotephonemanager.domain.Device
-import com.example.remotephonemanager.domain.User
-import com.example.remotephonemanager.usecases.RequestError
+import com.example.remotephonemanager.domain.entities.Device
+import com.example.remotephonemanager.domain.repository.DevicesRepository
+import com.example.remotephonemanager.domain.entities.request.RequestError
 import com.example.remotephonemanager.usecases.UseCase
 
 class GetDevicesUseCase(private val devicesRepository: DevicesRepository) :

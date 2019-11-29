@@ -3,16 +3,16 @@ package com.example.remotephonemanager.ui.home
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.remotephonemanager.domain.*
+import com.example.remotephonemanager.domain.entities.Action
+import com.example.remotephonemanager.domain.entities.ActionFactory
+import com.example.remotephonemanager.domain.entities.Device
 import com.example.remotephonemanager.framework.livedata.LiveEvent
-import com.example.remotephonemanager.usecases.RequestError
+import com.example.remotephonemanager.domain.entities.request.RequestError
 import com.example.remotephonemanager.usecases.UseCase
-import com.example.remotephonemanager.usecases.actions.ActionsRepository
 import com.example.remotephonemanager.usecases.actions.ActionsRepositoryMockImpl
 import com.example.remotephonemanager.usecases.actions.SendActionUseCase
 import com.example.remotephonemanager.usecases.devices.DevicesRepositoryMockImpl
 import com.example.remotephonemanager.usecases.devices.GetDevicesUseCase
-import java.util.*
 
 class HomeViewModel : ViewModel() {
     private val getDevicesUseCase:
